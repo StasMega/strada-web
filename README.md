@@ -1,2 +1,2 @@
 # strada-web
-url handler for Strada link sharing
+URL handler for Strada link sharing and Homepage for Strada website
