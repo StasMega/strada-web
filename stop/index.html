@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strada - Детали остановки</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #F1F4F9;
+            color: #31343B;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 24.dp;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 28px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            max-width: 400px;
+        }
+        h1 {
+            color: #0A48FF;
+            margin-bottom: 8px;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #5F6368;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #0A48FF;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 24px;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background-color: #0032C7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Strada</h1>
+        <p>Открываем информацию об остановке в приложении...</p>
+        <a id="app-link" href="#" class="btn">Открыть в Strada</a>
+    </div>
+
+    <script>
+        // Получаем stopId из query параметра ?id=123
+        const urlParams = new URLSearchParams(window.location.search);
+        const stopId = urlParams.get('id');
+
+        if (stopId) {
+            const deepLink = "strada://stop/" + stopId;
+            document.getElementById('app-link').href = deepLink;
+
+            // Автоматически пытаемся перенаправить в приложение
+            window.location.href = deepLink;
+
+            // Если через 2.5 секунды пользователь остался на странице, 
+            // значит приложение не установлено. Меняем текст на кнопке.
+            setTimeout(function() {
+                document.querySelector('p').innerHTML = "Похоже, приложение Strada не установлено на этом устройстве.";
+                const btn = document.getElementById('app-link');
+                btn.innerHTML = "Скачать Strada на GitHub";
+                btn.href = "https://github.com/StasMega/Strada"; // Укажи ссылку на скачивание APK
+            }, 2500);
+        } else {
+            document.querySelector('.container').innerHTML = "<h1>Ошибка</h1><p>ID остановки не указан в ссылке.</p>";
+        }
+    </script>
+</body>
+</html>
